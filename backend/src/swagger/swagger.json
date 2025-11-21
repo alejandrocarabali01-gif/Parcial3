@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FinanzIA API",
+    "version": "1.0.0",
+    "description": "API del sistema FinanzIA (gestión de usuarios, transacciones, reportes y módulo inteligente de recomendaciones)."
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Iniciar sesión",
+        "description": "Permite iniciar sesión con cualquier usuario/contraseña (modo demo).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Inicio exitoso" },
+          "400": { "description": "Datos inválidos" }
+        }
+      }
+    },
+
+    "/transactions": {
+      "get": {
+        "tags": ["Transacciones"],
+        "summary": "Listar todas las transacciones"
+      },
+      "post": {
+        "tags": ["Transacciones"],
+        "summary": "Crear una nueva transacción",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transactions/{id}": {
+      "get": {
+        "tags": ["Transacciones"],
+        "summary": "Obtener transacción por ID",
+        "parameters": [{ "in": "path", "name": "id", "required": true }]
+      },
+      "put": {
+        "tags": ["Transacciones"],
+        "summary": "Actualizar transacción",
+        "parameters": [{ "in": "path", "name": "id", "required": true }]
+      },
+      "delete": {
+        "tags": ["Transacciones"],
+        "summary": "Eliminar transacción",
+        "parameters": [{ "in": "path", "name": "id", "required": true }]
+      }
+    },
+
+    "/reports/generate": {
+      "post": {
+        "tags": ["Reportes"],
+        "summary": "Generar un reporte financiero",
+        "description": "Cálculo de totales, promedios e informe general.",
+        "responses": {
+          "200": { "description": "Reporte generado" }
+        }
+      }
+    },
+
+    "/ai/recommend": {
+      "get": {
+        "tags": ["IA"],
+        "summary": "Obtener recomendaciones de ahorro e inversión",
+        "responses": {
+          "200": { "description": "Recomendaciones generadas" }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "example": "demo@finanzia.com" },
+          "password": { "type": "string", "example": "1234" }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "example": "gasto" },
+          "amount": { "type": "number", "example": 50000 },
+          "category": { "type": "string", "example": "Comida" },
+          "date": { "type": "string", "example": "2025-01-10" }
+        }
+      }
+    }
+  }
+}
